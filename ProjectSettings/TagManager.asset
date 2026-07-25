@@ -40,11 +40,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: UI
+  - name: GameUI
     uniqueID: 3377996649
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: MenuUI
+    uniqueID: 4254505473
     locked: 0
   m_RenderingLayers:
   - Default

@@ -4,8 +4,9 @@ using UnityEngine;
 public class UIManger : MonoBehaviour
 {
     [Header("Score UI")]
-    public TextMeshProUGUI PlayerOneScoreText;
-    public TextMeshProUGUI PlayerTwoScoreText;
+    public TextMeshProUGUI playerOneScoreText;
+    public TextMeshProUGUI playerTwoScoreText;
+    public TextMeshProUGUI maxScoreText;
 
     void Start()
     {
@@ -19,7 +20,12 @@ public class UIManger : MonoBehaviour
 
     public void SetScoresOnBoard(int playerOneScore, int playerTwoScore)
     {
-        PlayerOneScoreText.text = playerOneScore.ToString();
-        PlayerTwoScoreText.text = playerTwoScore.ToString();
+        playerOneScoreText.text = playerOneScore.ToString();
+        playerTwoScoreText.text = playerTwoScore.ToString();
+    }
+
+    public void SetMaxScoreText(string maxScore)
+    {
+        maxScoreText.text = maxScore;
     }
 }

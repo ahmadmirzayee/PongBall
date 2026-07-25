@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BallController : MonoBehaviour
 {
@@ -57,14 +58,29 @@ public class BallController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "P1SZ")
+        if(GameManager.instance.toggleController.GetComponent<Toggle>().isOn == true)
         {
-            GameManager.instance.scoreManager.IncreaseScore(2);
+            if (collision.gameObject.tag == "P1SZ")
+            {
+                GameManager.instance.scoreManager.IncreaseScore(2);
+            }
+            else if (collision.gameObject.tag == "P2SZ")
+            {
+                GameManager.instance.scoreManager.IncreaseScore(1);
+            }
         }
-        else if(collision.gameObject.tag == "P2SZ")
+        else if(GameManager.instance.toggleController.GetComponent<Toggle>().isOn == false)
         {
-            GameManager.instance.scoreManager.IncreaseScore(1);
+            if (collision.gameObject.tag == "P1SZ")
+            {
+                GameManager.instance.scoreManager.DecreaseScore(2);
+            }
+            else if (collision.gameObject.tag == "P2SZ")
+            {
+                GameManager.instance.scoreManager.DecreaseScore(1);
+            }
         }
+        
 
         transform.position = Vector3.zero;
         moveBall?.Invoke();
