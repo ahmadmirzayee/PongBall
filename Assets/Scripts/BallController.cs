@@ -6,7 +6,6 @@ public class BallController : MonoBehaviour
 {
     [Header("Move Components")]
     public float speed;
-    public float minAngle;
     public float maxAngle;
     public float speedMultiplier;
     private float rotationSpeed;
@@ -15,13 +14,14 @@ public class BallController : MonoBehaviour
     private Vector2 direction;
 
     [Header("Events")]
-    private Action moveBall;
+    public Action moveBall;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         moveBall += SetBallValues;
         moveBall += PushBall;
+        moveBall += ResetBall;
     }
 
     void Start()
@@ -36,24 +36,21 @@ public class BallController : MonoBehaviour
 
     private void SetBallValues()
     {
-        if (UnityEngine.Random.value < 0.5f)
-        {
-            direction = Vector2.left;
-            rotationSpeed = 1;
-        }
-        else
-        {
-            direction = Vector2.right;
-            rotationSpeed = -1;
-        }
+        direction = UnityEngine.Random.value < 0.5f ? Vector2.left : Vector2.right;
+        rotationSpeed = UnityEngine.Random.value < 0.5f ? 1 : -1;
 
-        angle = UnityEngine.Random.Range(minAngle, maxAngle);
+        angle = UnityEngine.Random.Range(-maxAngle, maxAngle);
         direction.y = angle;
     }
 
     private void PushBall()
     {
         rigidbody.linearVelocity = direction * speed;
+    }
+
+    private void ResetBall()
+    {
+        transform.position = Vector3.zero;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -80,9 +77,8 @@ public class BallController : MonoBehaviour
                 GameManager.instance.scoreManager.DecreaseScore(1);
             }
         }
-        
 
-        transform.position = Vector3.zero;
+        GameManager.instance.audioManager.PlaySound("score");
         moveBall?.Invoke();
     }
 
@@ -90,6 +86,7 @@ public class BallController : MonoBehaviour
     {
         if(collision.gameObject.name.Contains("W"))
         {
+            GameManager.instance.audioManager.PlaySound("wall");
             return;
         }
 
@@ -104,7 +101,22 @@ public class BallController : MonoBehaviour
             rotationSpeed = -1;
         }
 
+        changeBallAngle(collision);
+        GameManager.instance.audioManager.PlaySound("paddle");
         rigidbody.linearVelocityX *= speedMultiplier;
         rotationSpeed *= speedMultiplier;
+    }
+
+    private void changeBallAngle(Collision2D collision)
+    {
+        ContactPoint2D contact = collision.GetContact(0);
+
+        float halfHeight = collision.collider.bounds.size.y / 2f;
+
+        float relative = (contact.point.y - collision.transform.position.y) / halfHeight;
+
+        Vector2 newDirection = new Vector2(1, relative).normalized;
+
+        rigidbody.linearVelocityY = newDirection.y * speed;
     }
 }

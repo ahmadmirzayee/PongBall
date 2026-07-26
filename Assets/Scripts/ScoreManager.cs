@@ -41,19 +41,35 @@ public class ScoreManager : MonoBehaviour
     {
         if(playerOneScore == maxScore)
         {
-            print("p1 wins");
+            GameManager.instance.uIManger.SetMessage("Player 1 Wins!");
+            GameManager.instance.audioManager.PlaySound("win");
+            StartCoroutine(GameManager.instance.menuManager.EnableMenuUI());
         }
         else if (playerTwoScore == maxScore)
         {
-            print("p2 wins");
+            GameManager.instance.uIManger.SetMessage("Player 2 Wins!");
+            GameManager.instance.audioManager.PlaySound("win");
+            StartCoroutine(GameManager.instance.menuManager.EnableMenuUI());
         }
     }
 
     public void CheckForLoser()
     {
+        string message;
+
         if(playerTwoScore <= 0)
         {
-            print("p1 lost");
+            message = "Game Over!";
+            GameManager.instance.audioManager.PlaySound("lose");
+
+            if (PlayerPrefs.GetInt("HIGHSCORE") < playerOneScore)
+            {
+                PlayerPrefs.SetInt("HIGHSCORE", playerOneScore);
+                message += $"\n Your highscore is: {playerOneScore}";
+            }
+
+            GameManager.instance.uIManger.SetMessage(message);
+            StartCoroutine(GameManager.instance.menuManager.EnableMenuUI());
         }
     }
 }

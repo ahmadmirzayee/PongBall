@@ -49,6 +49,9 @@ TagManager:
   - name: MenuUI
     uniqueID: 4254505473
     locked: 0
+  - name: WinUI
+    uniqueID: 321178925
+    locked: 0
   m_RenderingLayers:
   - Default
   m_MigratedRenderPipelines: []

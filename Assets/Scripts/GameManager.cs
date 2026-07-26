@@ -7,11 +7,13 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [Header("Refrences")]
-    public ScoreManager scoreManager;
-    public UIManger uIManger;
+    public BallController ballController;
     public ToggleController toggleController;
+    public MenuManager menuManager;
+    public ScoreManager scoreManager;
     public AudioManager audioManager;
-
+    public UIManger uIManger;
+    
     private void Awake()
     {
         instance = this;

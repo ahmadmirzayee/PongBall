@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,12 +8,9 @@ public class MenuManager : MonoBehaviour
     [Header("User Max Score Inputfield")]
     public TMP_InputField maxScoreInputfield;
 
-    [Header("Sliders For Volumes")]
-    public Slider musicVolumeSlider;
-    public TextMeshProUGUI musicVolumePercent;
-    public Slider sfxVolumeSlider;
-    public TextMeshProUGUI sfxVolumePercent;
-
+    [Header("User Highscore Text")]
+    public TextMeshProUGUI highscoreText;
+    
     [Header("Last Panel")]
     private GameObject activePanel;
 
@@ -48,34 +46,43 @@ public class MenuManager : MonoBehaviour
             {
                 GameManager.instance.scoreManager.maxScore = int.Parse(maxScoreInputfield.text);
             }
-            disableMenuUI();
+            GameManager.instance.scoreManager.playerOneScore = 0;
+            GameManager.instance.scoreManager.playerTwoScore = 0;
+            DisableMenuUI();
             GameManager.instance.uIManger.SetMaxScoreText(GameManager.instance.scoreManager.maxScore.ToString());
         }
         else if(GameManager.instance.toggleController.GetComponent<Toggle>().isOn == false)
         {
+            GameManager.instance.scoreManager.playerOneScore = 0;
             GameManager.instance.scoreManager.maxScore = int.MaxValue;
             GameManager.instance.scoreManager.playerTwoScore = 3;
             GameManager.instance.uIManger.SetScoresOnBoard(GameManager.instance.scoreManager.playerOneScore, GameManager.instance.scoreManager.playerTwoScore);
             GameManager.instance.uIManger.SetMaxScoreText("∞");
-            disableMenuUI();
+            DisableMenuUI();
         }
+
+        GameManager.instance.uIManger.SetScoresOnBoard(GameManager.instance.scoreManager.playerOneScore, GameManager.instance.scoreManager.playerTwoScore);
     }
 
-    private void disableMenuUI()
+    public IEnumerator EnableMenuUI()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        transform.root.gameObject.SetActive(true);
+        GameManager.instance.PauseGame(0);
+    }
+
+    private void DisableMenuUI()
     {
         activePanel.SetActive(false);
         transform.root.gameObject.SetActive(false);
         GameManager.instance.PauseGame(1);
+        GameManager.instance.ballController.moveBall?.Invoke();
+        GameManager.instance.uIManger.messageText.gameObject.SetActive(false);
     }
 
-    public void SetMusicVolume()
+    private void OnEnable()
     {
-        GameManager.instance.audioManager.musicAudioSource.volume = musicVolumeSlider.value;
-        musicVolumePercent.text = $"{(Mathf.Round(musicVolumeSlider.value * 100))}%";
-    }
-    public void SetSfxVolume()
-    {
-        GameManager.instance.audioManager.sfxAudioSource.volume = sfxVolumeSlider.value;
-        sfxVolumePercent.text = $"{(Mathf.Round(sfxVolumeSlider.value * 100))}%";
+        highscoreText.text = $"Highscore is: {PlayerPrefs.GetInt("HIGHSCORE")}";
     }
 }

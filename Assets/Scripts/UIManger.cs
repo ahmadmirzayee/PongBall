@@ -8,6 +8,9 @@ public class UIManger : MonoBehaviour
     public TextMeshProUGUI playerTwoScoreText;
     public TextMeshProUGUI maxScoreText;
 
+    [Header("Messages Text")]
+    public TextMeshProUGUI messageText;
+
     void Start()
     {
         
@@ -27,5 +30,11 @@ public class UIManger : MonoBehaviour
     public void SetMaxScoreText(string maxScore)
     {
         maxScoreText.text = maxScore;
+    }
+
+    public void SetMessage(string message)
+    {
+        messageText.gameObject.SetActive(true);
+        messageText.text = message;
     }
 }
