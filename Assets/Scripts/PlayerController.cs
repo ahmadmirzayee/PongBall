@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -36,15 +37,27 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(id == 1)
+        if(id == 2 && GameManager.instance.toggleController.GetComponent<Toggle>().isOn == false)
+        {
+            StartCoroutine(GameManager.instance.aiController.MoveAi());
+        }
+        else
+        {
+            Move();
+        }
+    }
+
+    private void Move()
+    {
+        if (id == 1)
         {
             coordinate = input.PlayerOne.Move.ReadValue<Vector2>();
         }
-        else if(id == 2)
+        else if (id == 2)
         {
             coordinate = input.PlayerTwo.Move.ReadValue<Vector2>();
         }
-        
+
         rigidbody.linearVelocity = coordinate * speed;
     }
 }

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [Header("Refrences")]
     public BallController ballController;
     public ToggleController toggleController;
+    public AiController aiController;
     public MenuManager menuManager;
     public ScoreManager scoreManager;
     public AudioManager audioManager;
