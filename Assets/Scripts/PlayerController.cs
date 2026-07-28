@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         if(id == 2 && GameManager.instance.toggleController.GetComponent<Toggle>().isOn == false)
         {
-            StartCoroutine(GameManager.instance.aiController.MoveAi());
+            GameManager.instance.aiController.MoveAi();
         }
         else
         {

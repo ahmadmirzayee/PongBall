@@ -35,6 +35,7 @@ public class ScoreManager : MonoBehaviour
 
         GameManager.instance.uIManger.SetScoresOnBoard(playerOneScore, playerTwoScore);
         CheckForLoser();
+        GameManager.instance.aiController.SetAiMovementValues();
     }
 
     public void CheckForWinner()

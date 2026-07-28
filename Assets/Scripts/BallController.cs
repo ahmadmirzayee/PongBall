@@ -95,6 +95,7 @@ public class BallController : MonoBehaviour
         if (paddle.id == 1)
         {
             rotationSpeed = 1;
+            //StartCoroutine(GameManager.instance.aiController.selectTarget());
         }
         else if (paddle.id == 2)
         {
