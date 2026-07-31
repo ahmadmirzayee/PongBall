@@ -16,6 +16,9 @@ public class BallController : MonoBehaviour
     [Header("Events")]
     public Action moveBall;
 
+    [Header("ID for PowerUp")]
+    private int paddleID;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -78,8 +81,29 @@ public class BallController : MonoBehaviour
             }
         }
 
-        GameManager.instance.audioManager.PlaySound("score");
-        moveBall?.Invoke();
+        if(collision.tag == "Multiplier")
+        {
+            StartCoroutine(GameManager.instance.powerupManager.MultiplyScore());
+            Destroy(collision.gameObject);
+            GameManager.instance.audioManager.PlaySound("powerup");
+        }
+        else if (collision.tag == "Minus")
+        {
+            StartCoroutine(GameManager.instance.powerupManager.MinusScore());
+            Destroy(collision.gameObject);
+            GameManager.instance.audioManager.PlaySound("powerup");
+        }
+        else if(collision.tag == "Shield")
+        {
+            StartCoroutine(GameManager.instance.powerupManager.DoShield(paddleID));
+            Destroy(collision.gameObject);
+            GameManager.instance.audioManager.PlaySound("powerup");
+        }
+        else
+        {
+            GameManager.instance.audioManager.PlaySound("score");
+            moveBall?.Invoke();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -90,16 +114,23 @@ public class BallController : MonoBehaviour
             return;
         }
 
+        if (collision.gameObject.name.Contains("S"))
+        {
+            GameManager.instance.audioManager.PlaySound("wall");
+            return;
+        }
+
         PlayerController paddle = collision.gameObject.GetComponent<PlayerController>();
 
         if (paddle.id == 1)
         {
             rotationSpeed = 1;
-            //StartCoroutine(GameManager.instance.aiController.selectTarget());
+            paddleID = 1;
         }
         else if (paddle.id == 2)
         {
             rotationSpeed = -1;
+            paddleID = 2;
         }
 
         changeBallAngle(collision);

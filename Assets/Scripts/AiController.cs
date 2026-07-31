@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,7 @@ public class AiController : MonoBehaviour
     public float accuracy;
     private float reactionTime;
     private float direction;
-    private float targetY;
+    private float time;
 
     void Start()
     {
@@ -27,17 +28,14 @@ public class AiController : MonoBehaviour
 
     void Update()
     {
-        if (Mathf.Abs(ball.transform.position.y - transform.position.y) > deadZone)
-        {
-            float error = UnityEngine.Random.Range(-accuracy, accuracy);
-            targetY = ball.transform.position.y + error;
-        }
+        float error = UnityEngine.Random.Range(-accuracy, accuracy);
+        float distance = (ball.transform.position.y + error) - transform.position.y;
 
-        float distance = targetY - transform.position.y;
+        time += Time.deltaTime;
 
-        if(MathF.Abs(distance) > deadZone)
+        if (MathF.Abs(distance) > deadZone)
         {
-            direction  = distance > 0 ? 1 : -1;
+            direction = distance > 0 ? 1 : -1;
         }
         else
         {
@@ -52,35 +50,35 @@ public class AiController : MonoBehaviour
 
         if (playerScore +  aiScore <= 5)
         {
-            speed = 1.2f;
+            speed = 1.6f;
             deadZone = 1f;
             accuracy = 0.5f;
-            reactionTime = 0.8f;
+            reactionTime = 0.5f;
         }
         else if (playerScore + aiScore <= 10)
         {
-            speed = 1.4f;
+            speed = 1.8f;
             deadZone = 0.8f;
             accuracy = 0.4f;
-            reactionTime = 0.6f;
+            reactionTime = 0.4f;
         }
         else if (playerScore + aiScore <= 15)
         {
-            speed = 1.6f;
+            speed = 2f;
             deadZone = 0.6f;
             accuracy = 0.3f;
-            reactionTime = 0.4f;
+            reactionTime = 0.3f;
         }
         else if (playerScore + aiScore <= 20)
         {
-            speed = 1.8f;
+            speed = 2.2f;
             deadZone = 0.4f;
             accuracy = 0.2f;
             reactionTime = 0.2f;
         }
         else if (playerScore + aiScore <= 25)
         {
-            speed = 2f;
+            speed = 2.4f;
             deadZone = 0.2f;
             accuracy = 0.1f;
             reactionTime = 0f;
@@ -91,14 +89,10 @@ public class AiController : MonoBehaviour
     {
         print($"speed: {speed}, deadzone: {deadZone}, accuracy: {accuracy}, time: {reactionTime}");
 
-        paddle.rigidbody.linearVelocityY = direction * speed;
-
+        if(time >= reactionTime)
+        {
+            paddle.rigidbody.linearVelocityY = direction * speed;
+            time = 0f;
+        }
     }
-
-    //public IEnumerator selectTarget()
-    //{
-    //    yield return new WaitForSeconds(reactionTime);
-
-        
-    //}
 }

@@ -6,6 +6,9 @@ TagManager:
   tags:
   - P1SZ
   - P2SZ
+  - Multiplier
+  - Minus
+  - Shield
   layers:
   - Default
   - TransparentFX

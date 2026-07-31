@@ -6,16 +6,31 @@ public class ScoreManager : MonoBehaviour
     public int playerOneScore;
     public int playerTwoScore;
     public int maxScore;
+    public int addScore = 1;
 
     public void IncreaseScore(int scoreZoneId)
     {
         if(scoreZoneId == 1)
         {
-            playerOneScore++;
+            if(addScore == -1)
+            {
+                playerTwoScore += addScore;
+            }
+            else
+            {
+                playerOneScore += addScore;
+            }
         }
         else if (scoreZoneId == 2)
         {
-            playerTwoScore++;
+            if(addScore == -1)
+            {
+                playerOneScore  += addScore;
+            }
+            else
+            {
+                playerTwoScore += addScore;
+            }
         }
 
         GameManager.instance.uIManger.SetScoresOnBoard(playerOneScore, playerTwoScore);
