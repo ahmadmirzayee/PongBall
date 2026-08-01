@@ -15,27 +15,26 @@ public class PlayerController : MonoBehaviour
     public float speed;
     private Vector2 coordinate;
 
+    // Initialize the input system
     private void Awake()
     {
         input = new PlayerInput();
     }
 
+    // Enable the input system when the object is enabled
     private void OnEnable()
     {
         input.Enable();
     }
 
+    // Disable the input system when the object is disabled
     private void OnDisable()
     {
         input.Disable();
     }
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
+    // Update the player's movement based on the input system and AI controller
+    private void Update()
     {
         if(id == 2 && GameManager.instance.toggleController.GetComponent<Toggle>().isOn == false)
         {
@@ -47,6 +46,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Move the player based on the input system's values for Player One or Player Two
     private void Move()
     {
         if (id == 1)

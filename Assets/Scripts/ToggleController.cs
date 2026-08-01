@@ -8,13 +8,15 @@ public class ToggleController : MonoBehaviour
     private Toggle toggle;
     private Vector3 knobPosition;
 
-    void Start()
+    // Initialize the toggle and knob position
+    private void Start()
     {
         toggle = GetComponent<Toggle>();
         knobPosition = knob.transform.position;
     }
 
-    void Update()
+    // Update the knob's position based on the toggle's state
+    private void Update()
     {
         if (toggle.isOn)
         {
@@ -22,7 +24,7 @@ public class ToggleController : MonoBehaviour
         }
         else
         {
-            knob.transform.position = new Vector3(-knobPosition.x, knobPosition.y, 0);
+            knob.transform.position = new Vector3(knobPosition.x - 17.4f, knobPosition.y, 0);
         }
     }
 }

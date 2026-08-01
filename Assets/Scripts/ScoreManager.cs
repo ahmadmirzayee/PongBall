@@ -8,6 +8,7 @@ public class ScoreManager : MonoBehaviour
     public int maxScore;
     public int addScore = 1;
 
+    // This function is used to increase the score of the player based on the scoreZoneId, if the scoreZoneId is 1, it increases player one's score, if it's 2, it increases player two's score
     public void IncreaseScore(int scoreZoneId)
     {
         if(scoreZoneId == 1)
@@ -37,6 +38,7 @@ public class ScoreManager : MonoBehaviour
         CheckForWinner();
     }
 
+    // This function is used to decrease the score of the player based on the scoreZoneId, if the scoreZoneId is 1, it increase player one's score, if it's 2, it decreases player two's score
     public void DecreaseScore(int scoreZoneId)
     {
         if (scoreZoneId == 1)
@@ -53,6 +55,7 @@ public class ScoreManager : MonoBehaviour
         GameManager.instance.aiController.SetAiMovementValues();
     }
 
+    // This function is used to check if any player has reached the max score, if player one has reached the max score, it sets the message to "Player 1 Wins!", plays the win sound and enables the menu UI
     public void CheckForWinner()
     {
         if(playerOneScore == maxScore)
@@ -69,6 +72,8 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+    // This function is used to check if any player has lost the game, if player two's score is less than or equal to 0, it sets the message to "Game Over!", plays the lose sound,
+    // checks if the player's score is higher than the highscore and updates it if it is, and enables the menu UI
     public void CheckForLoser()
     {
         string message;

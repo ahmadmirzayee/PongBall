@@ -19,14 +19,16 @@ public class AiController : MonoBehaviour
     private float direction;
     private float time;
 
-    void Start()
+    // Initialize the paddle and ball references and set the AI movement values at the start of the game
+    private void Start()
     {
         paddle = GetComponent<PlayerController>();
         ball = GameManager.instance.ballController.GetComponent<BallController>();
         SetAiMovementValues();
     }
 
-    void Update()
+    // Update the AI's movement based on the ball's position and the AI's movement values
+    private void Update()
     {
         float error = UnityEngine.Random.Range(-accuracy, accuracy);
         float distance = (ball.transform.position.y + error) - transform.position.y;
@@ -43,6 +45,7 @@ public class AiController : MonoBehaviour
         }
     }
 
+    // Set the AI's movement values based on the combined score of the player and the AI
     public void SetAiMovementValues()
     {
         int aiScore = GameManager.instance.scoreManager.playerTwoScore;
@@ -85,10 +88,9 @@ public class AiController : MonoBehaviour
         }
     }
 
+    // This function is used to move the AI's paddle based on the direction and speed values, and reset the time value after a certain amount of time has passed
     public void MoveAi()
     {
-        print($"speed: {speed}, deadzone: {deadZone}, accuracy: {accuracy}, time: {reactionTime}");
-
         if(time >= reactionTime)
         {
             paddle.rigidbody.linearVelocityY = direction * speed;
