@@ -40,16 +40,33 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // This function set the musicAudioSource volume and sfxAudioSource volume to the value of the sliders when the game starts for the first time
+    private void Awake()
+    {
+        musicVolumeSlider.value = 1;
+        sfxVolumeSlider.value = 1;
+        musicVolumePercent.text = "100%";
+        sfxVolumePercent.text = "100%";
+        GameManager.instance.audioManager.musicAudioSource.volume = musicVolumeSlider.value;
+        GameManager.instance.audioManager.sfxAudioSource.volume = sfxVolumeSlider.value;
+    }
+
     // This function load the settings' value and set them on the sliders at the start of the game
     private void Start()
     {
-        GameManager.instance.audioManager.musicAudioSource.volume = PlayerPrefs.GetFloat("MusicVolume");
-        musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume");
-        musicVolumePercent.text = $"{Mathf.Round(PlayerPrefs.GetFloat("MusicVolume") * 100)}%";
-
-        GameManager.instance.audioManager.sfxAudioSource.volume = PlayerPrefs.GetFloat("SoundVolume");
-        sfxVolumeSlider.value = PlayerPrefs.GetFloat("SoundVolume");
-        sfxVolumePercent.text = $"{Mathf.Round(PlayerPrefs.GetFloat("SoundVolume") * 100)}%";
+        if(PlayerPrefs.GetFloat("MusicVolume") != 0)
+        {
+            GameManager.instance.audioManager.musicAudioSource.volume = PlayerPrefs.GetFloat("MusicVolume");
+            musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+            musicVolumePercent.text = $"{Mathf.Round(PlayerPrefs.GetFloat("MusicVolume") * 100)}%";
+        }
+        
+        if (PlayerPrefs.GetFloat("SoundVolume") != 0)
+        {
+            GameManager.instance.audioManager.sfxAudioSource.volume = PlayerPrefs.GetFloat("SoundVolume");
+            sfxVolumeSlider.value = PlayerPrefs.GetFloat("SoundVolume");
+            sfxVolumePercent.text = $"{Mathf.Round(PlayerPrefs.GetFloat("SoundVolume") * 100)}%";
+        }
     }
 
     // This function get the settings' value from the sliders and save them when the game quits
