@@ -64,5 +64,17 @@ You can download the latest build from itch.io: https://ahmadmirzayee.itch.io/po
 - Additional Arenas
 - Gamepad Support
 
+## Credits
+This project uses the following third-party assets:
+### Assets
+- **Sound Effects**  
+  Created by: Envato
+  <br>Source: [Link to the asset page  ](https://mixkit.co/)
+  
+- **Music**  
+  Created by: SyncMusicTracks
+  <br>Source: [Link to the asset page  ](https://www.zapsplat.com/author/syncmusictracks/)
+  <br>License: Standard License
+
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
