@@ -70,6 +70,7 @@ This project uses the following third-party assets:
 - **Sound Effects**  
   Created by: Envato
   <br>Source: [Link to the asset page  ](https://mixkit.co/)
+  <br>License: Mixkit Sound Effects Free License
   
 - **Music**  
   Created by: SyncMusicTracks
